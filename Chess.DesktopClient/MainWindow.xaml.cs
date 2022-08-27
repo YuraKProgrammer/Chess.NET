@@ -24,5 +24,11 @@ namespace Chess.DesktopClient
         {
             InitializeComponent();
         }
+
+        public void OnStartClick()
+        {
+            var window = new GameWindow();
+            window.ShowDialog();
+        }
     }
 }
