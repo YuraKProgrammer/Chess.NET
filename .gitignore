@@ -1,0 +1,5 @@
+/.vs
+/Chess.DesktopClient/obj
+/Chess.DesktopClient/bin
+/Chess.Models/bin
+/Chess.Models/obj
