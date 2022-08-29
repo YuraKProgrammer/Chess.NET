@@ -25,7 +25,7 @@ namespace Chess.DesktopClient
             InitializeComponent();
         }
 
-        public void OnStartClick()
+        public void OnStartClick(object sender, RoutedEventArgs e)
         {
             var window = new GameWindow();
             window.ShowDialog();

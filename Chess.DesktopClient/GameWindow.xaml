@@ -7,6 +7,6 @@
         mc:Ignorable="d"
         Title="GameWindow" Height="900" Width="1600">
     <Grid>
-        
+        <Canvas Width="800" Height="800" x:Name="_canvas" MouseLeftButtonUp="SelectFigure" MouseRightButtonUp="SetFigure"/>
     </Grid>
 </Window>

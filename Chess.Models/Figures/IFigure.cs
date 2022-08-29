@@ -8,8 +8,8 @@ namespace Chess.Models.Figures
 {
     public interface IFigure
     {
-        Cell cell { get; set; }
-        Color color { get; set; }
-        string fileFolder { get; }
+        public Cell cell { get; set; }
+        public Color color { get; set; }
+        public string fileFolder { get; }
     }
 }

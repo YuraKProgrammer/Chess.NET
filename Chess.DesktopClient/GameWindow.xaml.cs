@@ -22,29 +22,48 @@ namespace Chess.DesktopClient
     {
         public IMoveChecker moveChecker = new MoveChecker();
         public Game game { get; set; }
-
+        private const int cellSize = 100;
         public GameWindow()
         {
             InitializeComponent();
             game = new Game(new GameField(8,8),new List<Chess.Models.Figures.IFigure>(),new List<Move>(), true);
+            DrawField();
         }
-        public void MakeMove(Cell cell1, Cell cell2, List<Chess.Models.Figures.IFigure> figures)
+        private void DrawField()
         {
-            if (moveChecker.Check(cell1, cell2, figures))
+            for(var x=1; x<=game.field.width; x++)
             {
-                var f = game.GetFigure(cell1);
-                f.cell = cell2;
-                if (game.GetFigure(cell2) != null)
+                for (var y = 1; y <= game.field.height; y++)
                 {
-                    var f2 = game.GetFigure(cell2);
-                    figures.Remove(f2);
-                    game.figures = figures;
+                    DrawCell(x, y);
                 }
             }
-            else
+        }
+
+        private void DrawCell(int x, int y)
+        {
+            var bitmapImage = new BitmapImage();
+            if (game.figures.Where(f => f.cell.x == x).Where(f => f.cell.y == y).FirstOrDefault() == null)
             {
-                MessageBox.Show("Невозможно переставить фигуру");
+                bitmapImage = new BitmapImage(new Uri(@"/Chess.DesktopClient;component/images/empty.jpg", UriKind.RelativeOrAbsolute));
             }
+            System.Windows.Controls.Image image = new System.Windows.Controls.Image();
+            image.Width = cellSize;
+            image.Height = cellSize;
+            image.Source = bitmapImage;
+            Canvas.SetLeft(image, cellSize*(x-1));
+            Canvas.SetTop(image, cellSize*(y-1));
+            _canvas.Children.Add(image);
+        }
+
+        public void SetFigure(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        public void SelectFigure(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

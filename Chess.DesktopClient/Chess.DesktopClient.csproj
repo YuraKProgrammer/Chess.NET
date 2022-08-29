@@ -8,7 +8,41 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="images\belephant.jpg" />
+    <None Remove="images\bhorse.jpg" />
+    <None Remove="images\bking.jpg" />
+    <None Remove="images\bpawn.jpg" />
+    <None Remove="images\bqueen.jpg" />
+    <None Remove="images\brook.jpg" />
+    <None Remove="images\empty.jpg" />
+    <None Remove="images\field - Copy.jpg" />
+    <None Remove="images\field.jpg" />
+    <None Remove="images\welephant.jpg" />
+    <None Remove="images\whorse.jpg" />
+    <None Remove="images\wking.jpg" />
+    <None Remove="images\wpawn.jpg" />
+    <None Remove="images\wqueen.jpg" />
+    <None Remove="images\wrook.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Chess.Models\Chess.Models.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="images\belephant.jpg" />
+    <Resource Include="images\bhorse.jpg" />
+    <Resource Include="images\bking.jpg" />
+    <Resource Include="images\bpawn.jpg" />
+    <Resource Include="images\bqueen.jpg" />
+    <Resource Include="images\brook.jpg" />
+    <Resource Include="images\empty.jpg" />
+    <Resource Include="images\welephant.jpg" />
+    <Resource Include="images\whorse.jpg" />
+    <Resource Include="images\wking.jpg" />
+    <Resource Include="images\wpawn.jpg" />
+    <Resource Include="images\wqueen.jpg" />
+    <Resource Include="images\wrook.jpg" />
   </ItemGroup>
 
 </Project>
