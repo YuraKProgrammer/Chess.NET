@@ -1,6 +1,8 @@
 ﻿using Chess.Models;
+using Chess.Models.Figures;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,11 +25,20 @@ namespace Chess.DesktopClient
         public IMoveChecker moveChecker = new MoveChecker();
         public Game game { get; set; }
         private const int cellSize = 100;
+        private IFigure selectedFigure;
         public GameWindow()
         {
             InitializeComponent();
-            game = new Game(new GameField(8,8), true);
+            game = new Game(new GameField(8,8), Models.Color.White);
+            Update();
+        }
+        private void Update()
+        {
             DrawField();
+            if (game.turn == Models.Color.White)
+                turn.Text = "Ход белых";
+            if (game.turn == Models.Color.Black)
+                turn.Text = "Ход черных";
         }
         private void DrawField()
         {
@@ -60,14 +71,26 @@ namespace Chess.DesktopClient
             _canvas.Children.Add(image);
         }
 
-        public void SetFigure(object sender, RoutedEventArgs e)
+        public void SetFigure(object sender, MouseButtonEventArgs e)
         {
-
+            var x = (int)(e.GetPosition(_canvas).X / cellSize) + 1;
+            var y = (int)(e.GetPosition(_canvas).Y / cellSize) + 1;
+            game.MakeMove(selectedFigure.cell, new Cell(x, y));
+            Update();
         }
 
-        public void SelectFigure(object sender, RoutedEventArgs e)
+        public void SelectFigure(object sender, MouseButtonEventArgs e)
         {
-
+            var x = (int)(e.GetPosition(_canvas).X / cellSize) + 1;
+            var y = (int)(e.GetPosition(_canvas).Y / cellSize) + 1;
+            var s = game.GetFigure(new Cell(x, y));
+            if (s != null)
+            {
+                if (s.color == game.turn)
+                    selectedFigure = game.GetFigure(new Cell(x, y));
+                else
+                    MessageBox.Show("Сейчас очередь другого игрока");
+            }
         }
     }
 }

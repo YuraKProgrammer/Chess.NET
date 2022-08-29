@@ -11,7 +11,7 @@ namespace Chess.Models
     {
         public bool Check(Cell cell1, Cell cell2, List<IFigure> figures)
         {
-            throw new NotImplementedException();
+            return true;
         }
     }
 }

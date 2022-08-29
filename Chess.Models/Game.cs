@@ -13,7 +13,7 @@ namespace Chess.Models
         public GameField field { get; set; }
         public List<IFigure> figures { get; set; }
         public List<Move> moves { get; }
-        public bool isWhiteMove { get; }
+        public Color turn { get; set; }
         /// <summary>
         /// Загрузка старой игры
         /// </summary>
@@ -21,22 +21,22 @@ namespace Chess.Models
         /// <param name="figures"></param>
         /// <param name="moves"></param>
         /// <param name="isWhiteMove"></param>
-        public Game(GameField field, List<IFigure> figures, List<Move> moves, bool isWhiteMove)
+        public Game(GameField field, List<IFigure> figures, List<Move> moves, Color turn)
         {
             this.field = field;
             this.figures = figures;
             this.moves = moves;
-            this.isWhiteMove = isWhiteMove;
+            this.turn = turn;
         }
         /// <summary>
         /// Новая игра
         /// </summary>
         /// <param name="field"></param>
         /// <param name="isWhiteMove"></param>
-        public Game(GameField field, bool isWhiteMove)
+        public Game(GameField field, Color turn)
         {
             this.field =field;
-            this.isWhiteMove = isWhiteMove;
+            this.turn = turn;
             moves = new List<Move>();
             figures = new List<IFigure>();
             var b = Color.Black;
@@ -98,12 +98,18 @@ namespace Chess.Models
             {
                 var f = GetFigure(cell1);
                 AddMove(new Move(moves.Count + 1, GetFigure(cell1), cell1, cell2));
-                f.cell = cell2;
-                if (GetFigure(cell2) != null)
+                if (GetFigure(cell2) != null && GetFigure(cell1).color!=GetFigure(cell2).color)
                 {
                     var f2 = GetFigure(cell2);
                     figures.Remove(f2);
                 }
+                figures.Remove(f);
+                f.cell = cell2;
+                figures.Add(f);
+                if (turn == Color.White)
+                    turn = Color.Black;
+                else
+                    turn = Color.White;
             }
             else
             {

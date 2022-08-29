@@ -8,5 +8,6 @@
         Title="GameWindow" Height="900" Width="1600">
     <Grid>
         <Canvas Width="800" Height="800" x:Name="_canvas" MouseLeftButtonUp="SelectFigure" MouseRightButtonUp="SetFigure"/>
+        <TextBlock Margin="10,42,1350,770" x:Name="turn"/>
     </Grid>
 </Window>
