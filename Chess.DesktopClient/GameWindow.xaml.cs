@@ -26,7 +26,7 @@ namespace Chess.DesktopClient
         public GameWindow()
         {
             InitializeComponent();
-            game = new Game(new GameField(8,8),new List<Chess.Models.Figures.IFigure>(),new List<Move>(), true);
+            game = new Game(new GameField(8,8), true);
             DrawField();
         }
         private void DrawField()
@@ -46,6 +46,10 @@ namespace Chess.DesktopClient
             if (game.figures.Where(f => f.cell.x == x).Where(f => f.cell.y == y).FirstOrDefault() == null)
             {
                 bitmapImage = new BitmapImage(new Uri(@"/Chess.DesktopClient;component/images/empty.jpg", UriKind.RelativeOrAbsolute));
+            }
+            else
+            {
+                bitmapImage = new BitmapImage(new Uri(game.GetFigure(new Cell(x,y)).fileFolder, UriKind.RelativeOrAbsolute));
             }
             System.Windows.Controls.Image image = new System.Windows.Controls.Image();
             image.Width = cellSize;

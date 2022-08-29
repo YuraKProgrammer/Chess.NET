@@ -15,5 +15,18 @@ namespace Chess.Models.Figures
         public Cell cell { get; set; }
         public Color color { get; set; }
         public string fileFolder { get; }
+        public Pawn(Cell cell, Color color)
+        {
+            this.cell = cell;
+            this.color = color;
+            if (color == Color.White)
+            {
+                fileFolder = @"/Chess.DesktopClient;component/images/wpawn.jpg";
+            }
+            if (color == Color.Black)
+            {
+                fileFolder = @"/Chess.DesktopClient;component/images/bpawn.jpg";
+            }
+        }
     }
 }
