@@ -1,6 +1,7 @@
 ﻿using Chess.Models.Figures;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,7 +14,7 @@ namespace Chess.Models
         public GameField field { get; set; }
         public List<IFigure> figures { get; set; }
         public List<Move> moves { get; }
-        public Color turn { get; set; }
+        public Color turn { get; set; } //Очередь ходов
         /// <summary>
         /// Загрузка старой игры
         /// </summary>
@@ -113,7 +114,7 @@ namespace Chess.Models
             }
             else
             {
-                throw new Exception("Невозможно переставить фигуру");
+                Debug.WriteLine("Невозможно переставить фигуру");
             }
         }
     }
