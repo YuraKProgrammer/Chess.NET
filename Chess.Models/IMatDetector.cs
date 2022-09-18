@@ -7,8 +7,11 @@ using System.Threading.Tasks;
 
 namespace Chess.Models
 {
+    /// <summary>
+    /// Интерфейс, описывающий все деткторы матов
+    /// </summary>
     public interface IMatDetector
     {
-        public bool Detect(List<IFigure> figures, King king);
+        public bool Detect(List<IFigure> figures, Color kingColor);
     }
 }

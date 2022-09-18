@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Chess.Models
 {
+    /// <summary>
+    /// Содержит в себе данные о размерах игровго поля
+    /// </summary>
     public class GameField
     { 
         public int width { get; set; }

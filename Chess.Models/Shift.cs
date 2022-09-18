@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Chess.Models
 {
+    /// <summary>
+    /// Содержит в себе джанные о том, как может двигаться фигура по правилам
+    /// </summary>
     public class Shift
     {
         public int dx { get; set; }

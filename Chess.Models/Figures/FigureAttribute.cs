@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Chess.Models.Figures
 {
+    /// <summary>
+    /// Описание фигуры
+    /// </summary>
     public class FigureAttribute : Attribute
     {
         public string Name { get; }

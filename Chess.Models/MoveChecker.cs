@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Chess.Models
 {
+    /// <summary>
+    /// Проверятель ходов
+    /// </summary>
     public class MoveChecker : IMoveChecker
     {
         public bool Check(Cell cell1, Cell cell2, List<IFigure> figures)

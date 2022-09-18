@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Chess.Models
 {
+    /// <summary>
+    /// Детектор шахов
+    /// </summary>
     public class ShahDetector : IShahDetector
     {
         IMoveChecker moveChecker = new MoveChecker();

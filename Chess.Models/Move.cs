@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Chess.Models
 {
+    /// <summary>
+    /// Содержит в себе данные о том, как сходила та или иная фигура
+    /// </summary>
     public class Move
     {
         public int Id { get; set; }

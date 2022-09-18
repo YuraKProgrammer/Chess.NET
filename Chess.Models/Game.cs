@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace Chess.Models
 {
+    /// <summary>
+    /// Класс описывающий объект - игра, то есть шахматная партия
+    /// </summary>
     public class Game
     {
         public IMoveChecker moveChecker = new MoveChecker();
@@ -121,7 +124,7 @@ namespace Chess.Models
         }
         public bool CheckShah()
         {
-            if (shahDetector.Detect(figures, turn).Count!=null)
+            if (shahDetector.Detect(figures, turn).Count>0)
             {
                 return true;
             }
