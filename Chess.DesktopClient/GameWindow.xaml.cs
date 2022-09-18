@@ -39,6 +39,7 @@ namespace Chess.DesktopClient
                 turn.Text = "Ход белых";
             if (game.turn == Models.Color.Black)
                 turn.Text = "Ход черных";
+            CheckShah();
         }
         private void DrawField()
         {
@@ -75,7 +76,8 @@ namespace Chess.DesktopClient
         {
             var x = (int)(e.GetPosition(_canvas).X / cellSize) + 1;
             var y = (int)(e.GetPosition(_canvas).Y / cellSize) + 1;
-            game.MakeMove(selectedFigure.cell, new Cell(x, y));
+            if (!game.MakeMove(selectedFigure.cell, new Cell(x, y)))
+                MessageBox.Show("Невозможно переставить фигуру");
             Update();
         }
 
@@ -90,6 +92,13 @@ namespace Chess.DesktopClient
                     selectedFigure = game.GetFigure(new Cell(x, y));
                 else
                     MessageBox.Show("Сейчас очередь другого игрока");
+            }
+        }
+        public void CheckShah()
+        {
+            if (game.CheckShah())
+            {
+                MessageBox.Show("Шах!");
             }
         }
     }

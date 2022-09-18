@@ -9,6 +9,6 @@ namespace Chess.Models
 {
     public interface IShahDetector
     {
-        public IFigure Detect(List<IFigure> figures);
+        public List<IFigure> Detect(List<IFigure> figures, Color kingColor);
     }
 }

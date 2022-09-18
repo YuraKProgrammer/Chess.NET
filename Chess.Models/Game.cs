@@ -11,6 +11,7 @@ namespace Chess.Models
     public class Game
     {
         public IMoveChecker moveChecker = new MoveChecker();
+        public IShahDetector shahDetector = new ShahDetector();
         public GameField field { get; set; }
         public List<IFigure> figures { get; set; }
         public List<Move> moves { get; }
@@ -93,7 +94,7 @@ namespace Chess.Models
         {
             moves.Add(move);
         }
-        public void MakeMove(Cell cell1, Cell cell2)
+        public bool MakeMove(Cell cell1, Cell cell2)
         {
             if (moveChecker.Check(cell1, cell2, figures))
             {
@@ -111,11 +112,20 @@ namespace Chess.Models
                     turn = Color.Black;
                 else
                     turn = Color.White;
+                return true;
             }
             else
             {
-                Debug.WriteLine("Невозможно переставить фигуру");
+                return false;
             }
+        }
+        public bool CheckShah()
+        {
+            if (shahDetector.Detect(figures, turn).Count!=null)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }
