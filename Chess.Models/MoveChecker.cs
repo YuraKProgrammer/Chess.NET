@@ -15,23 +15,23 @@ namespace Chess.Models
         public bool Check(Cell cell1, Cell cell2, List<IFigure> figures)
         {
             bool isEating = false;
-            var f = figures.Where(f => f.cell == cell1).FirstOrDefault();
-            if (figures.Where(f => f.cell == cell2).FirstOrDefault() != null)
+            var f = figures.Where(f => CompareCells(f.cell,cell1)).FirstOrDefault();
+            if (figures.Where(f => CompareCells(f.cell, cell2)).FirstOrDefault() != null)
             {
-                if (figures.Where(f => f.cell == cell1).FirstOrDefault().color != figures.Where(f => f.cell == cell2).FirstOrDefault().color)
+                if (figures.Where(f => CompareCells(f.cell,cell1)).FirstOrDefault().color != figures.Where(f => CompareCells(f.cell,cell2)).FirstOrDefault().color)
                 {
                     isEating = true;
                 }
             }
-            if (CheckShift(cell1, cell2, f, isEating))
+            if (CheckShift(cell1, cell2, f, isEating) && CheckPath(f, cell2, figures))
             {
-                if (CheckPath(f,cell2,figures))
-                {
-                    return true;
-                }
+                return true;
             }
             return false;
         }
+        /// <summary>
+        ///Проверка правильности сдвига фигуры по её правилам ходьбы 
+        /// </summary>
         private bool CheckShift(Cell cell1, Cell cell2, IFigure figure, bool isEating)
         {
             var x1 = cell1.x;
@@ -56,6 +56,9 @@ namespace Chess.Models
             }
             return false;
         }
+        /// <summary>
+        ///Проверка пути фигуры
+        /// </summary>
         private bool CheckPath(IFigure figure, Cell cell2, List<IFigure> figures)
         {
             if (figure.GetType() == typeof(Horse)) {
@@ -81,6 +84,9 @@ namespace Chess.Models
             }
             return IsPathClear(lc, figures);
         }
+        /// <summary>
+        ///Получение всех клеток, находящиххся на пути у фигуры
+        /// </summary>
         private List<Cell> GetPath(Cell cell1, Cell cell2)
         {
             var l = new List<Cell>();
@@ -164,6 +170,9 @@ namespace Chess.Models
             }
             return l;
         }
+        /// <summary>
+        ///Проверка, что путь у фигуры чистый 
+        /// </summary>
         private bool IsPathClear (List<Cell> cells, List<IFigure> figures)
         {
             foreach(var c in cells)
@@ -175,6 +184,9 @@ namespace Chess.Models
             }
             return true;
         }
+        /// <summary>
+        /// Проверка, что две клетки являются одной и той же
+        /// </summary>
         private bool CompareCells (Cell cell1, Cell cell2)
         {
             if (cell1.x==cell2.x && cell1.y == cell2.y)

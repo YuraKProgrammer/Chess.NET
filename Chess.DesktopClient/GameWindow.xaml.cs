@@ -22,9 +22,9 @@ namespace Chess.DesktopClient
     /// </summary>
     public partial class GameWindow : Window
     {
-        public IMoveChecker moveChecker = new MoveChecker();
+        public IMoveChecker moveChecker = new MoveChecker(); //Проверятель ходов
         public Game game { get; set; }
-        private const int cellSize = 100;
+        private const int cellSize = 100; //Фактический размер одной клетки (ширина и высота)
         private IFigure selectedFigure;
         public GameWindow()
         {
@@ -32,15 +32,23 @@ namespace Chess.DesktopClient
             game = new Game(new GameField(8,8), Models.Color.White);
             Update();
         }
+
+        /// <summary>
+        /// Обновление
+        /// </summary>
         private void Update()
         {
-            DrawField();
-            if (game.turn == Models.Color.White)
-                turn.Text = "Ход белых";
-            if (game.turn == Models.Color.Black)
+            DrawField(); //отрисовать поле
+            if (game.turn == Models.Color.White) //Если очередь белых
+                turn.Text = "Ход белых"; 
+            if (game.turn == Models.Color.Black) //Если очередь чёрных
                 turn.Text = "Ход черных";
             CheckShah();
         }
+
+        /// <summary>
+        /// Отрисовка всего поля
+        /// </summary>
         private void DrawField()
         {
             for(var x=1; x<=game.field.width; x++)
@@ -52,6 +60,9 @@ namespace Chess.DesktopClient
             }
         }
 
+        /// <summary>
+        /// Отрисовка данной клетки
+        /// </summary>
         private void DrawCell(int x, int y)
         {
             var bitmapImage = new BitmapImage();
@@ -62,6 +73,7 @@ namespace Chess.DesktopClient
             else
             {
                 bitmapImage = new BitmapImage(new Uri(game.GetFigure(new Cell(x,y)).fileFolder, UriKind.RelativeOrAbsolute));
+
             }
             System.Windows.Controls.Image image = new System.Windows.Controls.Image();
             image.Width = cellSize;
@@ -70,8 +82,22 @@ namespace Chess.DesktopClient
             Canvas.SetLeft(image, cellSize*(x-1));
             Canvas.SetTop(image, cellSize*(y-1));
             _canvas.Children.Add(image);
+            if (selectedFigure != null && selectedFigure.cell.x==x && selectedFigure.cell.y==y)
+            {
+                bitmapImage = new BitmapImage(new Uri(@"/Chess.DesktopClient;component/images/selected.jpg", UriKind.RelativeOrAbsolute));
+                Image image1 = new System.Windows.Controls.Image();
+                image1.Width = 10;
+                image1.Height = 10;
+                image1.Source = bitmapImage;
+                Canvas.SetLeft(image1, cellSize * (x - 1)+(cellSize-10)/2);
+                Canvas.SetTop(image1, cellSize * (y - 1) + (cellSize - 10)/2);
+                _canvas.Children.Add(image1);
+            }
         }
 
+        /// <summary>
+        /// Установка фигуры на новую позицию 
+        /// </summary>
         public void SetFigure(object sender, MouseButtonEventArgs e)
         {
             var x = (int)(e.GetPosition(_canvas).X / cellSize) + 1;
@@ -79,8 +105,12 @@ namespace Chess.DesktopClient
             if (!game.MakeMove(selectedFigure.cell, new Cell(x, y)))
                 MessageBox.Show("Невозможно переставить фигуру");
             Update();
+            selectedFigure = null;
         }
 
+        /// <summary>
+        /// Выбрать фигуру
+        /// </summary>
         public void SelectFigure(object sender, MouseButtonEventArgs e)
         {
             var x = (int)(e.GetPosition(_canvas).X / cellSize) + 1;
@@ -93,7 +123,12 @@ namespace Chess.DesktopClient
                 else
                     MessageBox.Show("Сейчас очередь другого игрока");
             }
+            Update();
         }
+       
+        /// <summary>
+        /// Есть ли шах?
+        /// </summary>
         public void CheckShah()
         {
             if (game.CheckShah())

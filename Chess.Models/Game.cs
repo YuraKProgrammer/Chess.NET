@@ -43,6 +43,7 @@ namespace Chess.Models
             this.field =field;
             this.turn = turn;
             moves = new List<Move>();
+            //Добавление все фигуры на поле
             figures = new List<IFigure>();
             var b = Color.Black;
             figures.Add(new Rook(new Cell(1,1),b));
@@ -97,21 +98,25 @@ namespace Chess.Models
         {
             moves.Add(move);
         }
+        /// <summary>
+        /// Сделать ход 
+        /// </summary>
         public bool MakeMove(Cell cell1, Cell cell2)
         {
-            if (moveChecker.Check(cell1, cell2, figures))
+            if (moveChecker.Check(cell1, cell2, figures))//Если вообще можно сделать такой ход
             {
                 var f = GetFigure(cell1);
-                AddMove(new Move(moves.Count + 1, GetFigure(cell1), cell1, cell2));
-                if (GetFigure(cell2) != null && GetFigure(cell1).color!=GetFigure(cell2).color)
+                AddMove(new Move(moves.Count + 1, GetFigure(cell1), cell1, cell2)); //Добавляем ход в память
+                if (GetFigure(cell2) != null && GetFigure(cell1).color!=GetFigure(cell2).color) //Если во второй клетке есть фигура и цвета фигур во второй и первой клетках не совпадают 
                 {
-                    var f2 = GetFigure(cell2);
-                    figures.Remove(f2);
+                    var f2 = GetFigure(cell2); //Получаем фигуру в клетке 2
+                    figures.Remove(f2); //Убираем фигуру из 2 клетки
                 }
-                figures.Remove(f);
-                f.cell = cell2;
-                figures.Add(f);
-                if (turn == Color.White)
+                figures.Remove(f);//Убираем фигуру из 1 клетки
+                f.cell = cell2;//Меняем клетку фигуры с 1 на 2
+                figures.Add(f);//Добавляем фигуру в фигуры
+                //Здесь меняем очередь хода игрока
+                if (turn == Color.White) 
                     turn = Color.Black;
                 else
                     turn = Color.White;
@@ -122,6 +127,9 @@ namespace Chess.Models
                 return false;
             }
         }
+        /// <summary>
+        /// Проверка наличия шаха в данной ситуации
+        /// </summary>
         public bool CheckShah()
         {
             if (shahDetector.Detect(figures, turn).Count>0)
