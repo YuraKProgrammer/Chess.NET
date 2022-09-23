@@ -15,10 +15,10 @@ namespace Chess.Models
         public bool Check(Cell cell1, Cell cell2, List<IFigure> figures)
         {
             bool isEating = false;
-            var f = figures.Where(f => CompareCells(f.cell,cell1)).FirstOrDefault();
-            if (figures.Where(f => CompareCells(f.cell, cell2)).FirstOrDefault() != null)
+            var f = figures.Where(f => Comparer.CompareCells(f.cell,cell1)).FirstOrDefault();
+            if (figures.Where(f => Comparer.CompareCells(f.cell, cell2)).FirstOrDefault() != null)
             {
-                if (figures.Where(f => CompareCells(f.cell,cell1)).FirstOrDefault().color != figures.Where(f => CompareCells(f.cell,cell2)).FirstOrDefault().color)
+                if (figures.Where(f => Comparer.CompareCells(f.cell,cell1)).FirstOrDefault().color != figures.Where(f => Comparer.CompareCells(f.cell,cell2)).FirstOrDefault().color)
                 {
                     isEating = true;
                 }
@@ -68,7 +68,7 @@ namespace Chess.Models
             var dy = cell2.y - figure.cell.y;
             if ((dx==0 && Math.Abs(dy)==1) || (Math.Abs(dx)==1 && dy == 0) || (Math.Abs(dx) == 1 && Math.Abs(dy) == 1))
             {
-                var f = figures.Where(f => f.cell == cell2).FirstOrDefault();
+                var f = figures.Where(f => Comparer.CompareCells(f.cell,cell2)).FirstOrDefault();
                 if (f==null || f.color != figure.color)
                 {
                     return true;
@@ -77,7 +77,7 @@ namespace Chess.Models
             }
             var lc = GetPath(figure.cell, cell2);
             // Если последняя клетка пустая или заполнена врагом, то убрать её из пути
-            var c2f = figures.Where(f => f.cell == cell2).FirstOrDefault();
+            var c2f = figures.Where(f => Comparer.CompareCells(f.cell,cell2)).FirstOrDefault();
             if (c2f==null || c2f.color != figure.color)
             {
                 lc.Remove(cell2);
@@ -177,23 +177,12 @@ namespace Chess.Models
         {
             foreach(var c in cells)
             {
-                if (figures.Where(f => CompareCells(c,f.cell)==true).FirstOrDefault() != null)
+                if (figures.Where(f => Comparer.CompareCells(c,f.cell)==true).FirstOrDefault() != null)
                 {
                     return false;
                 }
             }
             return true;
-        }
-        /// <summary>
-        /// Проверка, что две клетки являются одной и той же
-        /// </summary>
-        private bool CompareCells (Cell cell1, Cell cell2)
-        {
-            if (cell1.x==cell2.x && cell1.y == cell2.y)
-            {
-                return true;
-            }
-            return false;
         }
     }
 }

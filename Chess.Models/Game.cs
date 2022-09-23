@@ -103,7 +103,7 @@ namespace Chess.Models
         /// </summary>
         public bool MakeMove(Cell cell1, Cell cell2)
         {
-            if (moveChecker.Check(cell1, cell2, figures))//Если вообще можно сделать такой ход
+            if (moveChecker.Check(cell1, cell2, figures) && !CheckShah())//Если вообще можно сделать такой ход
             {
                 var f = GetFigure(cell1);
                 AddMove(new Move(moves.Count + 1, GetFigure(cell1), cell1, cell2)); //Добавляем ход в память

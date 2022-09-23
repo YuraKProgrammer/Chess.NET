@@ -16,9 +16,6 @@ namespace Chess.Models
         /// <summary>
         /// Возвращает список фигур, которые делают шах королю данного цвета
         /// </summary>
-        /// <param name="figures"></param>
-        /// <param name="kingColor"></param>
-        /// <returns></returns>
         public List<IFigure> Detect(List<IFigure> figures, Color kingColor)
         {
             var c2 = figures.Where(f => f.GetType() == typeof(King)).Where(f => f.color == kingColor).FirstOrDefault().cell; //Находим клетку, на которой стоит король данного цвета
@@ -28,7 +25,7 @@ namespace Chess.Models
                 for (var y=1; y<=8; y++)
                 {
                     var cell = new Cell(x, y); //Создаем клетку по координатам x и y 
-                    var f = figures.Where(f => f.cell == cell).FirstOrDefault(); //Берём фигуру на поле в данной клетке
+                    var f = figures.Where(f => Comparer.CompareCells(f.cell,cell)).FirstOrDefault(); //Берём фигуру на поле в данной клетке
                     if (f != null && f.color != kingColor) //Если фигура не равна null и цает фигуры не равен цвету короля
                     {
                         if (moveChecker.Check(cell, c2, figures)) //Если можно сделать ход фигурой  из данной клетки в клетку короля

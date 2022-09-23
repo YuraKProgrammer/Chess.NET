@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Chess.DesktopClient"
         mc:Ignorable="d"
-        Title="GameWindow" Height="900" Width="1600">
+        Title="Шазматы" Height="900" Width="1600">
     <Grid>
         <Canvas Width="800" Height="800" x:Name="_canvas" MouseLeftButtonUp="SelectFigure" MouseRightButtonUp="SetFigure"/>
         <TextBlock Margin="10,42,1200,600" x:Name="turn" FontSize="20"/>

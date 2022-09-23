@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Chess.DesktopClient"
         mc:Ignorable="d"
-        Title="MainWindow" Height="200" Width="300">
+        Title="Начало" Height="200" Width="300">
     <Grid>
         <Menu>
             <Button Margin="65" Height="50" Width="150" Content="Начать" FontSize="20" Click="OnStartClick"/>
