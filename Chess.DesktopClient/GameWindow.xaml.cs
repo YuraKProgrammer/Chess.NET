@@ -43,7 +43,14 @@ namespace Chess.DesktopClient
                 turn.Text = "Ход белых"; 
             if (game.turn == Models.Color.Black) //Если очередь чёрных
                 turn.Text = "Ход черных";
+            HowMuchIsEaten();
             CheckShah();
+        }
+
+        private void HowMuchIsEaten()
+        {
+            whitesEaten.Text = "Белых съели:"+(16-game.figures.Where(f => f.color == Chess.Models.Color.White).Count()).ToString();
+            blacksEaten.Text = "Чёрных съели:"+(16-game.figures.Where(f => f.color == Chess.Models.Color.Black).Count()).ToString();
         }
 
         /// <summary>

@@ -5,9 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Chess.DesktopClient"
         mc:Ignorable="d"
-        Title="Шазматы" Height="900" Width="1600">
+        Title="Шахматы" Height="900" Width="1600">
     <Grid>
         <Canvas Width="800" Height="800" x:Name="_canvas" MouseLeftButtonUp="SelectFigure" MouseRightButtonUp="SetFigure"/>
         <TextBlock Margin="10,42,1200,600" x:Name="turn" FontSize="20"/>
+        <TextBlock Margin="10,321,1200,321" x:Name="whitesEaten" FontSize="20"/>
+        <TextBlock Margin="10,600,1200,42" x:Name="blacksEaten" FontSize="20"/>
     </Grid>
 </Window>
