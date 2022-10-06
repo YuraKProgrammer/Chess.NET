@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Chess.Models
 {
     /// <summary>
-    /// Интрефейс, описывающий все детекторы матов
+    /// Детектор матов
     /// </summary>
     public class MatDetector : IMatDetector
     {

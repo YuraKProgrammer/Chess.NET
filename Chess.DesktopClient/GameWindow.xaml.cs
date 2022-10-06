@@ -47,6 +47,9 @@ namespace Chess.DesktopClient
             CheckShah();
         }
 
+        /// <summary>
+        /// Пишет, сколько фигур съедено
+        /// </summary>
         private void HowMuchIsEaten()
         {
             whitesEaten.Text = "Белых съели:"+(16-game.figures.Where(f => f.color == Chess.Models.Color.White).Count()).ToString();
@@ -100,6 +103,17 @@ namespace Chess.DesktopClient
                 Canvas.SetTop(image1, cellSize * (y - 1) + (cellSize - 10)/2);
                 _canvas.Children.Add(image1);
             }
+            if (game.moves.Count!=0 && Comparer.CompareCells(game.moves[game.moves.Count-1].cell2,new Cell(x,y)))
+            {
+                bitmapImage = new BitmapImage(new Uri(@"/Chess.DesktopClient;component/images/last.jpg", UriKind.RelativeOrAbsolute));
+                Image image2 = new System.Windows.Controls.Image();
+                image2.Width = 10;
+                image2.Height = 10;
+                image2.Source = bitmapImage;
+                Canvas.SetLeft(image2, cellSize * (x - 1) + (cellSize - 10) / 2);
+                Canvas.SetTop(image2, cellSize * (y - 1) + (cellSize - 10) / 2);
+                _canvas.Children.Add(image2);
+            }
         }
 
         /// <summary>
@@ -111,11 +125,11 @@ namespace Chess.DesktopClient
             var y = (int)(e.GetPosition(_canvas).Y / cellSize) + 1;
             if (selectedFigure != null)
             {
-                if (game.CheckShah())
+                if (game.CheckShah()!=Models.Color.Null)
                 {
                     var game1 = new Game(new GameField(8, 8), game.figures, game.moves, game.turn);
                     game1.MakeMove(selectedFigure.cell, new Cell(x, y));
-                    if (!game1.CheckShah())
+                    if (game1.CheckShah()==Models.Color.Null)
                     {
                         game.MakeMove(selectedFigure.cell, new Cell(x, y));
                         selectedFigure = null;
@@ -158,9 +172,13 @@ namespace Chess.DesktopClient
         /// </summary>
         public void CheckShah()
         {
-            if (game.CheckShah())
+            if (game.CheckShah()==Chess.Models.Color.White)
             {
-                MessageBox.Show("Шах!");
+                MessageBox.Show("Шах БЕЛОМУ королю!");
+            }
+            if (game.CheckShah() == Chess.Models.Color.Black)
+            {
+                MessageBox.Show("Шах ЧЁРНОМУ королю!");
             }
         }
     }

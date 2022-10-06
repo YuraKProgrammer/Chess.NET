@@ -128,15 +128,15 @@ namespace Chess.Models
             }
         }
         /// <summary>
-        /// Проверка наличия шаха в данной ситуации
+        /// Проверка наличия шаха в данной ситуации и в случае наличия возвращает цвет короля
         /// </summary>
-        public bool CheckShah()
+        public Color CheckShah()
         {
             if (shahDetector.Detect(figures, turn).Count>0)
             {
-                return true;
+                return turn;
             }
-            return false;
+            return Color.Null;
         }
     }
 }
