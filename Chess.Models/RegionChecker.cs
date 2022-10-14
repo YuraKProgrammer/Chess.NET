@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Chess.Models
 {
+    /// <summary>
+    /// Класс, проверяющий входит ли клетка или фиугра в данную область поля
+    /// </summary>
     public static class RegionChecker
     {
         public static bool CheckCellInRegion(Cell cell, Region region)

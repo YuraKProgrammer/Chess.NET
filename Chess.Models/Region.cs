@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Chess.Models
 {
+    /// <summary>
+    /// Класс, описывающий область поля двумя клетками с позициями (x1,y1) и (x2,y2)
+    /// </summary>
     public class Region
     {
         public int x1 { get; set; }

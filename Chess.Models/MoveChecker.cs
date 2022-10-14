@@ -1,6 +1,7 @@
 ﻿using Chess.Models.Figures;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,8 +13,8 @@ namespace Chess.Models
     /// </summary>
     public class MoveChecker : IMoveChecker
     {
-        private Region WhitePawnsRegion = new Region(1,2,8,2);
-        private Region BlackPawnsRegion = new Region(1,7,8,7);
+        private Region BlackPawnsRegion = new Region(1,2,8,2);
+        private Region WhitePawnsRegion = new Region(1,7,8,7);
         public bool Check(Cell cell1, Cell cell2, List<IFigure> figures)
         {
             bool isEating = false;
@@ -23,25 +24,6 @@ namespace Chess.Models
                 if (figures.Where(f => Comparer.CompareCells(f.cell,cell1)).FirstOrDefault().color != figures.Where(f => Comparer.CompareCells(f.cell,cell2)).FirstOrDefault().color)
                 {
                     isEating = true;
-                }
-            }
-            if (f.GetType() == typeof(Pawn))
-            {
-                if (isEating==false && Math.Abs(cell2.y - cell1.y) == 2)
-                {
-                    if (IsPawnFirstMove(f))
-                    {
-                        return true;
-                    }
-                    return false;
-                }
-                else
-                {
-                    if (CheckShift(cell1, cell2, f, isEating) && CheckPath(f, cell2, figures))
-                    {
-                        return true;
-                    }
-                    return false;
                 }
             }
             if (CheckShift(cell1, cell2, f, isEating) && CheckPath(f, cell2, figures))
@@ -70,6 +52,16 @@ namespace Chess.Models
             }
             else
             {
+                if (figure.GetType() == typeof(Pawn))
+                {
+                    if (!IsPawnFirstMove(figure))
+                    {
+                        if (figure.moves.Count == 2)
+                        {
+                            figure.moves.Remove(figure.moves[1]);
+                        }
+                    }
+                }
                 if (figure.moves.Where(e => e.dx == dx).Where(e => e.dy == dy).FirstOrDefault() != null)
                 {
                     return true;
