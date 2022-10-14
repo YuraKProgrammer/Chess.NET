@@ -92,6 +92,17 @@ namespace Chess.DesktopClient
             Canvas.SetLeft(image, cellSize*(x-1));
             Canvas.SetTop(image, cellSize*(y-1));
             _canvas.Children.Add(image);
+            if (game.moves.Count != 0 && Comparer.CompareCells(game.moves[game.moves.Count - 1].cell2, new Cell(x, y)))
+            {
+                bitmapImage = new BitmapImage(new Uri(@"/Chess.DesktopClient;component/images/last.jpg", UriKind.RelativeOrAbsolute));
+                Image image2 = new System.Windows.Controls.Image();
+                image2.Width = 10;
+                image2.Height = 10;
+                image2.Source = bitmapImage;
+                Canvas.SetLeft(image2, cellSize * (x - 1) + (cellSize - 10) / 2);
+                Canvas.SetTop(image2, cellSize * (y - 1) + (cellSize - 10) / 2);
+                _canvas.Children.Add(image2);
+            }
             if (selectedFigure != null && selectedFigure.cell.x==x && selectedFigure.cell.y==y)
             {
                 bitmapImage = new BitmapImage(new Uri(@"/Chess.DesktopClient;component/images/selected.jpg", UriKind.RelativeOrAbsolute));
@@ -102,17 +113,6 @@ namespace Chess.DesktopClient
                 Canvas.SetLeft(image1, cellSize * (x - 1)+(cellSize-10)/2);
                 Canvas.SetTop(image1, cellSize * (y - 1) + (cellSize - 10)/2);
                 _canvas.Children.Add(image1);
-            }
-            if (game.moves.Count!=0 && Comparer.CompareCells(game.moves[game.moves.Count-1].cell2,new Cell(x,y)))
-            {
-                bitmapImage = new BitmapImage(new Uri(@"/Chess.DesktopClient;component/images/last.jpg", UriKind.RelativeOrAbsolute));
-                Image image2 = new System.Windows.Controls.Image();
-                image2.Width = 10;
-                image2.Height = 10;
-                image2.Source = bitmapImage;
-                Canvas.SetLeft(image2, cellSize * (x - 1) + (cellSize - 10) / 2);
-                Canvas.SetTop(image2, cellSize * (y - 1) + (cellSize - 10) / 2);
-                _canvas.Children.Add(image2);
             }
         }
 

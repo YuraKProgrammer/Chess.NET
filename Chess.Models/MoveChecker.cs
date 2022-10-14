@@ -12,6 +12,8 @@ namespace Chess.Models
     /// </summary>
     public class MoveChecker : IMoveChecker
     {
+        private Region WhitePawnsRegion = new Region(1,2,8,2);
+        private Region BlackPawnsRegion = new Region(1,7,8,7);
         public bool Check(Cell cell1, Cell cell2, List<IFigure> figures)
         {
             bool isEating = false;
@@ -21,6 +23,25 @@ namespace Chess.Models
                 if (figures.Where(f => Comparer.CompareCells(f.cell,cell1)).FirstOrDefault().color != figures.Where(f => Comparer.CompareCells(f.cell,cell2)).FirstOrDefault().color)
                 {
                     isEating = true;
+                }
+            }
+            if (f.GetType() == typeof(Pawn))
+            {
+                if (isEating==false && Math.Abs(cell2.y - cell1.y) == 2)
+                {
+                    if (IsPawnFirstMove(f))
+                    {
+                        return true;
+                    }
+                    return false;
+                }
+                else
+                {
+                    if (CheckShift(cell1, cell2, f, isEating) && CheckPath(f, cell2, figures))
+                    {
+                        return true;
+                    }
+                    return false;
                 }
             }
             if (CheckShift(cell1, cell2, f, isEating) && CheckPath(f, cell2, figures))
@@ -183,6 +204,27 @@ namespace Chess.Models
                 }
             }
             return true;
+        }
+
+        private bool IsPawnFirstMove(IFigure figure)
+        {
+            if (figure.color == Color.White)
+            {
+                if (RegionChecker.CheckFigureInRegion(figure, WhitePawnsRegion))
+                {
+                    return true;
+                }
+                return false;
+            }
+            if (figure.color == Color.Black)
+            {
+                if (RegionChecker.CheckFigureInRegion(figure, BlackPawnsRegion))
+                {
+                    return true;
+                }
+                return false;
+            }
+            throw new Exception("Ошибка в проверке первого хода пешки");
         }
     }
 }

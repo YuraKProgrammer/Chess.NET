@@ -17,6 +17,7 @@
     <None Remove="images\empty.jpg" />
     <None Remove="images\field - Copy.jpg" />
     <None Remove="images\field.jpg" />
+    <None Remove="images\icon.ico" />
     <None Remove="images\last.jpg" />
     <None Remove="images\selected.jpg" />
     <None Remove="images\welephant.jpg" />
@@ -39,6 +40,7 @@
     <Resource Include="images\bqueen.jpg" />
     <Resource Include="images\brook.jpg" />
     <Resource Include="images\empty.jpg" />
+    <Resource Include="images\icon.ico" />
     <Resource Include="images\last.jpg" />
     <Resource Include="images\selected.jpg" />
     <Resource Include="images\welephant.jpg" />
