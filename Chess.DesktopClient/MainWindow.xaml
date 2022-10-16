@@ -5,10 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Chess.DesktopClient"
         mc:Ignorable="d"
-        Title="Начало" Height="200" Width="300" Icon="/Chess.DesktopClient;component/images/icon.ico">
+        Title="Начало" Height="350" Width="350" Icon="/Chess.DesktopClient;component/images/icon.ico">
     <Grid>
-        <Menu>
-            <Button Margin="65" Height="50" Width="150" Content="Начать" FontSize="20" Click="OnStartClick"/>
-        </Menu>
+        <TextBlock Text="Автор программы: Калантырь Ю.С."/>
+        <Button Content="Начать" FontSize="15" Margin="31,70,181,218" Click="OnStartClick"/>
     </Grid>
 </Window>

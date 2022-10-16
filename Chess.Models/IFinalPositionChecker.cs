@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Chess.Models.Figures;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,6 +12,6 @@ namespace Chess.Models
     /// </summary>
     public interface IFinalPositionChecker
     {
-
+        public Cell CheckPawnInFinalPosition(List<IFigure> figures, Color color);
     }
 }

@@ -38,6 +38,7 @@ namespace Chess.DesktopClient
         /// </summary>
         private void Update()
         {
+            CheckPawnFinalPosition();
             DrawField(); //отрисовать поле
             if (game.turn == Models.Color.White) //Если очередь белых
                 turn.Text = "Ход белых"; 
@@ -180,6 +181,11 @@ namespace Chess.DesktopClient
             {
                 MessageBox.Show("Шах ЧЁРНОМУ королю!");
             }
+        }
+
+        public void CheckPawnFinalPosition()
+        {
+            game.CheckFinalPosition();
         }
     }
 }
