@@ -18,19 +18,21 @@ namespace Chess.Models
         /// </summary>
         public List<IFigure> Detect(List<IFigure> figures, Color kingColor)
         {
-            var c2 = figures.Where(f => f.GetType() == typeof(King)).Where(f => f.color == kingColor).FirstOrDefault().cell; //Находим клетку, на которой стоит король данного цвета
             List<IFigure> outF = new List<IFigure>(); //Создаем список шахующих фигур
-            for(var x=1; x<=8; x++)
-            {
-                for (var y=1; y<=8; y++)
+            if (figures.Where(f => f.GetType() == typeof(King)).Where(f => f.color == kingColor).FirstOrDefault() != null){
+                var c2 = figures.Where(f => f.GetType() == typeof(King)).Where(f => f.color == kingColor).FirstOrDefault().cell; //Находим клетку, на которой стоит король данного цвета
+                for (var x = 1; x <= 8; x++)
                 {
-                    var cell = new Cell(x, y); //Создаем клетку по координатам x и y 
-                    var f = figures.Where(f => Comparer.CompareCells(f.cell,cell)).FirstOrDefault(); //Берём фигуру на поле в данной клетке
-                    if (f != null && f.color != kingColor) //Если фигура не равна null и цает фигуры не равен цвету короля
+                    for (var y = 1; y <= 8; y++)
                     {
-                        if (moveChecker.Check(cell, c2, figures)) //Если можно сделать ход фигурой из данной клетки в клетку короля
+                        var cell = new Cell(x, y); //Создаем клетку по координатам x и y 
+                        var f = figures.Where(f => Comparer.CompareCells(f.cell, cell)).FirstOrDefault(); //Берём фигуру на поле в данной клетке
+                        if (f != null && f.color != kingColor) //Если фигура не равна null и цает фигуры не равен цвету короля
                         {
-                            outF.Add(f); //Добавить данную фигуру в список шахующих фигур
+                            if (moveChecker.Check(cell, c2, figures)) //Если можно сделать ход фигурой из данной клетки в клетку короля
+                            {
+                                outF.Add(f); //Добавить данную фигуру в список шахующих фигур
+                            }
                         }
                     }
                 }

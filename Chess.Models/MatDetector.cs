@@ -47,8 +47,13 @@ namespace Chess.Models
 
         private bool CheckCellIsHit(int x, int y, List<IFigure> figures,Color kingColor)
         {
-            var game1 = new Game(new GameField(8, 8), figures, new List<Move>(), kingColor);
-            Cell cellK = figures.Where(f => f.color == kingColor).Where(f => f.GetType() == typeof(King)).FirstOrDefault().cell;
+            var f1 = new List<IFigure>();
+            foreach (var f in figures)
+            {
+                f1.Add(f);
+            }
+            var game1 = new Game(new GameField(8, 8), f1, new List<Move>(), kingColor);
+            Cell cellK = f1.Where(f => f.color == kingColor).Where(f => f.GetType() == typeof(King)).FirstOrDefault().cell;
             game1.MakeMove(cellK, new Cell(x, y));
             if (game1.CheckShah() == kingColor)
             {
