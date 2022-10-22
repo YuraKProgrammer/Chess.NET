@@ -15,6 +15,8 @@ namespace Chess.Models
     {
         public IMoveChecker moveChecker = new MoveChecker();
         public IShahDetector shahDetector = new ShahDetector();
+        public IMatDetector matDetector = new MatDetector();
+        public Color winner {get; set;}
         public IFinalPositionChecker finalPositionChecker = new FinalPositionChecker();
         public GameField field { get; set; }
         public List<IFigure> figures { get; set; }
@@ -29,6 +31,7 @@ namespace Chess.Models
             this.figures = figures;
             this.moves = moves;
             this.turn = turn;
+            winner = Color.Null;
         }
         /// <summary>
         /// Новая игра
@@ -41,6 +44,7 @@ namespace Chess.Models
             //Добавление все фигуры на поле
             figures = new List<IFigure>();
             figures = StandardFiguresArrangement.GetFigures();
+            winner = Color.Null;
         }
 
         public void AddFigure(IFigure figure) 
@@ -65,7 +69,7 @@ namespace Chess.Models
         /// </summary>
         public bool MakeMove(Cell cell1, Cell cell2)
         {
-            if (moveChecker.Check(cell1, cell2, figures))//Если вообще можно сделать такой ход
+            if (moveChecker.Check(cell1, cell2, figures))//Если вообще можно сделать такой ход по MoveCheker
             {
                 var f = GetFigure(cell1);
                 AddMove(new Move(moves.Count + 1, GetFigure(cell1), cell1, cell2)); //Добавляем ход в память
@@ -99,6 +103,27 @@ namespace Chess.Models
                 return turn;
             }
             return Color.Null;
+        }
+
+        private void CheckMat()
+        {
+            if (matDetector.Detect(figures, turn) == true)
+            {
+                if (turn == Color.Black)
+                {
+                    winner = Color.White;
+                }
+                if (turn == Color.White)
+                {
+                    winner = Color.Black;
+                }
+            }
+        }
+
+        public Color CheckWinner()
+        {
+            CheckMat();
+            return winner;
         }
 
         public void CheckFinalPosition()

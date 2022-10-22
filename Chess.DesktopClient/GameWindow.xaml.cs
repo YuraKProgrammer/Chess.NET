@@ -46,6 +46,7 @@ namespace Chess.DesktopClient
                 turn.Text = "Ход черных";
             HowMuchIsEaten();
             CheckShah();
+            CheckWinner();
         }
 
         /// <summary>
@@ -180,6 +181,20 @@ namespace Chess.DesktopClient
             if (game.CheckShah() == Chess.Models.Color.Black)
             {
                 MessageBox.Show("Шах ЧЁРНОМУ королю!");
+            }
+        }
+
+        public void CheckWinner()
+        {
+            if (game.CheckWinner() == Models.Color.White)
+            {
+                MessageBox.Show("ИГРА ОКОНЧЕНА. ПОБЕДИЛИ БЕЛЫЕ");
+                Close();
+            }
+            if (game.CheckWinner() == Models.Color.Black)
+            {
+                MessageBox.Show("ИГРА ОКОНЧЕНА. ПОБЕДИЛИ ЧЁРНЫЕ");
+                Close();
             }
         }
 

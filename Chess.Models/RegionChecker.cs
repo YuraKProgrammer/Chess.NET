@@ -33,7 +33,7 @@ namespace Chess.Models
             return CheckCellInRegion(cell, region);
         }
 
-        private static bool CheckNumberInInterval(int c, int c1, int c2)
+        public static bool CheckNumberInInterval(int c, int c1, int c2)
         {
             if (c1 < c2)
             {

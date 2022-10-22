@@ -12,9 +12,53 @@ namespace Chess.Models
     /// </summary>
     public class MatDetector : IMatDetector
     {
+        public IShahDetector shahDetector = new ShahDetector();
         public bool Detect(List<IFigure> figures, Color kingColor)
         {
-            throw new NotImplementedException();
+            if (figures.Where(f => f.color == kingColor).Where(f => f.GetType() == typeof(King)).FirstOrDefault()==null)
+            {
+                return true;
+            }
+            Cell cellK = figures.Where(f => f.color == kingColor).Where(f => f.GetType() == typeof(King)).FirstOrDefault().cell;
+            King king = (King)(figures.Where(f => f.color == kingColor).Where(f => f.GetType() == typeof(King)).FirstOrDefault());
+            if (shahDetector.Detect(figures, kingColor).Count == 0)
+            {
+                return false;
+            }
+            var k = 0;
+            foreach(Shift sh in king.moves)
+            {
+                var x1 = cellK.x + sh.dx;
+                var y1 = cellK.y + sh.dy;
+                if (RegionChecker.CheckNumberInInterval(x1, 1, 8) && RegionChecker.CheckNumberInInterval(y1, 1, 8))
+                {
+                    if (CheckCellIsHit(x1, y1, figures, kingColor) == true)
+                    {
+                        k = k + 1;
+                    }
+                }
+            }
+            if (k == 8)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        private bool CheckCellIsHit(int x, int y, List<IFigure> figures,Color kingColor)
+        {
+            var game1 = new Game(new GameField(8, 8), figures, new List<Move>(), kingColor);
+            Cell cellK = figures.Where(f => f.color == kingColor).Where(f => f.GetType() == typeof(King)).FirstOrDefault().cell;
+            game1.MakeMove(cellK, new Cell(x, y));
+            if (game1.CheckShah() == kingColor)
+            {
+                return true;
+            }
+            if (game1.CheckShah() != kingColor)
+            {
+                return false;
+            }
+            return false;
         }
     }
 }

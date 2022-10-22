@@ -28,7 +28,7 @@ namespace Chess.Models
                     var f = figures.Where(f => Comparer.CompareCells(f.cell,cell)).FirstOrDefault(); //Берём фигуру на поле в данной клетке
                     if (f != null && f.color != kingColor) //Если фигура не равна null и цает фигуры не равен цвету короля
                     {
-                        if (moveChecker.Check(cell, c2, figures)) //Если можно сделать ход фигурой  из данной клетки в клетку короля
+                        if (moveChecker.Check(cell, c2, figures)) //Если можно сделать ход фигурой из данной клетки в клетку короля
                         {
                             outF.Add(f); //Добавить данную фигуру в список шахующих фигур
                         }
