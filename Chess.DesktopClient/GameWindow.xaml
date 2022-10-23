@@ -11,5 +11,6 @@
         <TextBlock Margin="10,42,1200,600" x:Name="turn" FontSize="20"/>
         <TextBlock Margin="10,321,1200,321" x:Name="whitesEaten" FontSize="20"/>
         <TextBlock Margin="10,600,1200,42" x:Name="blacksEaten" FontSize="20"/>
+        <TextBox Margin="1250,82,0,639" x:Name="CheatText"/>
     </Grid>
 </Window>

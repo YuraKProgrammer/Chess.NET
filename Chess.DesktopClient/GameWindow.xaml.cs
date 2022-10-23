@@ -22,6 +22,12 @@ namespace Chess.DesktopClient
     /// </summary>
     public partial class GameWindow : Window
     {
+        public string turnWText = "Ход белых";
+        public string turnBText = "Ход чёрных";
+        public string shahWText = "Шах БЕЛОМУ королю!";
+        public string shahBText = "Шах ЧЁРНОМУ королю!";
+        public string eatWText = "Белых съели: ";
+        public string eatBText = "Чёрных съели: ";
         public IMoveChecker moveChecker = new MoveChecker(); //Проверятель ходов
         public Game game { get; set; }
         private const int cellSize = 100; //Фактический размер одной клетки (ширина и высота)
@@ -38,15 +44,17 @@ namespace Chess.DesktopClient
         /// </summary>
         private void Update()
         {
+            CheckCheatText();
+            DrawField();
+            CheckWinner();
             CheckPawnFinalPosition();
             DrawField(); //отрисовать поле
             if (game.turn == Models.Color.White) //Если очередь белых
-                turn.Text = "Ход белых"; 
+                turn.Text = turnWText;
             if (game.turn == Models.Color.Black) //Если очередь чёрных
-                turn.Text = "Ход черных";
+                turn.Text = turnBText;
             HowMuchIsEaten();
             CheckShah();
-            CheckWinner();
         }
 
         /// <summary>
@@ -54,8 +62,8 @@ namespace Chess.DesktopClient
         /// </summary>
         private void HowMuchIsEaten()
         {
-            whitesEaten.Text = "Белых съели:"+(16-game.figures.Where(f => f.color == Chess.Models.Color.White).Count()).ToString();
-            blacksEaten.Text = "Чёрных съели:"+(16-game.figures.Where(f => f.color == Chess.Models.Color.Black).Count()).ToString();
+            whitesEaten.Text = eatWText+(16-game.figures.Where(f => f.color == Chess.Models.Color.White).Count()).ToString();
+            blacksEaten.Text = eatBText+(16-game.figures.Where(f => f.color == Chess.Models.Color.Black).Count()).ToString();
         }
 
         /// <summary>
@@ -176,11 +184,11 @@ namespace Chess.DesktopClient
         {
             if (game.CheckShah()==Chess.Models.Color.White)
             {
-                MessageBox.Show("Шах БЕЛОМУ королю!");
+                MessageBox.Show(shahWText);
             }
             if (game.CheckShah() == Chess.Models.Color.Black)
             {
-                MessageBox.Show("Шах ЧЁРНОМУ королю!");
+                MessageBox.Show(shahBText);
             }
         }
 
@@ -201,6 +209,101 @@ namespace Chess.DesktopClient
         public void CheckPawnFinalPosition()
         {
             game.CheckFinalPosition();
+        }
+
+        private void CheckCheatText()
+        {
+            switch (CheatText.Text)
+            {
+                case "OnlyRulersGame": 
+                    OnlyRulersGame();
+                    break;
+                case "OnlyPawnsGame":
+                    OnlyPawnsGame();
+                    break;
+                case "OnlyKingsGame":
+                    OnlyKingsGame();
+                    break;
+                case "SolidQueens":
+                    SolidQueens();
+                    break;
+                case "SolidPawns":
+                    SolidPawns();
+                    break;
+                case "FunnyInscriptions":
+                    FunnyInscriptions();
+                    break;
+            }
+        }
+
+        private void OnlyRulersGame()
+        {
+            for (int i = game.figures.Count-1; i >= 0; i--)
+            { 
+                if (game.figures[i].GetType()!=typeof(King) && game.figures[i].GetType() != typeof(Queen))
+                {
+                    game.RemoveFigure(game.figures[i]);
+                }
+            }
+        }
+
+        private void OnlyPawnsGame()
+        {
+            for (int i = game.figures.Count - 1; i >= 0; i--)
+            {
+                if (game.figures[i].GetType() != typeof(King) && game.figures[i].GetType() != typeof(Pawn))
+                {
+                    game.RemoveFigure(game.figures[i]);
+                }
+            }
+        }
+
+        private void OnlyKingsGame()
+        {
+            for (int i = game.figures.Count - 1; i >= 0; i--)
+            {
+                if (game.figures[i].GetType() != typeof(King))
+                {
+                    game.RemoveFigure(game.figures[i]);
+                }
+            }
+        }
+
+        private void SolidQueens()
+        {
+            for (int i = game.figures.Count - 1; i >= 0; i--)
+            {
+                if (game.figures[i].GetType() != typeof(King))
+                {
+                    var f = game.figures[i];
+                    game.RemoveFigure(game.figures[i]);
+                    game.AddFigure(new Queen(f.cell, f.color));
+                }
+            }
+        }
+
+        private void SolidPawns()
+        {
+            for (int i = game.figures.Count - 1; i >= 0; i--)
+            {
+                if (game.figures[i].GetType() != typeof(King))
+                {
+                    var f = game.figures[i];
+                    game.RemoveFigure(game.figures[i]);
+                    game.AddFigure(new Pawn(f.cell, f.color));
+                }
+            }
+        }
+
+        private void FunnyInscriptions()
+        {
+            turnWText = "Ход альбиносов";
+            turnBText = "Ход загорелых";
+            shahWText = "Шах не чёрному королю, а другому...";
+            shahBText = "Сами думайте, что значит это сообщение";
+            eatWText = "Белых пропало без вести: ";
+            eatBText = "Черных уничтожили: ";
+            Title = "ытамхаШ";
         }
     }
 }

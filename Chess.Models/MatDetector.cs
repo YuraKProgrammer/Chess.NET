@@ -55,6 +55,10 @@ namespace Chess.Models
             var game1 = new Game(new GameField(8, 8), f1, new List<Move>(), kingColor);
             Cell cellK = f1.Where(f => f.color == kingColor).Where(f => f.GetType() == typeof(King)).FirstOrDefault().cell;
             game1.MakeMove(cellK, new Cell(x, y));
+            if (kingColor == Color.White)
+                game1.turn = Color.Black;
+            if (kingColor == Color.Black)
+                game1.turn = Color.White;
             if (game1.CheckShah() == kingColor)
             {
                 return true;
