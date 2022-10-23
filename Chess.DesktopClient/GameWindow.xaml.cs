@@ -14,6 +14,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Color = Chess.Models.Color;
 
 namespace Chess.DesktopClient
 {
@@ -233,6 +234,33 @@ namespace Chess.DesktopClient
                 case "FunnyInscriptions":
                     FunnyInscriptions();
                     break;
+                case "AllFiguresDelete":
+                    DeleteAllFigures();
+                    break;
+            }
+            if (CheatText.Text.StartsWith("SetPawn"))
+            {
+                SetPawn(CheatText.Text);
+            }
+            if (CheatText.Text.StartsWith("SetHorse"))
+            {
+                SetHorse(CheatText.Text);
+            }
+            if (CheatText.Text.StartsWith("SetElephant"))
+            {
+                SetElephant(CheatText.Text);
+            }
+            if (CheatText.Text.StartsWith("SetRook"))
+            {
+                SetRook(CheatText.Text);
+            }
+            if (CheatText.Text.StartsWith("SetQueen"))
+            {
+                SetQueen(CheatText.Text);
+            }
+            if (CheatText.Text.StartsWith("Delete"))
+            {
+                Delete(CheatText.Text);
             }
         }
 
@@ -304,6 +332,126 @@ namespace Chess.DesktopClient
             eatWText = "Белых пропало без вести: ";
             eatBText = "Черных уничтожили: ";
             Title = "ытамхаШ";
+        }
+
+        private void DeleteAllFigures()
+        {
+            for (int i = game.figures.Count - 1; i >= 0; i--)
+            {
+                var f = game.figures[i];
+                game.RemoveFigure(f);
+            }
+            game.AddFigure(new King(new Cell(1, 1), Color.Black));
+            game.AddFigure(new King(new Cell(8, 8), Color.White));
+        }
+
+        private void SetPawn(string command) 
+        {
+            command = command.Remove(0,7);
+            var color = Color.Null;
+            var c = command.Substring(0, 1);
+            command = command.Remove(0, 1);
+            if (c == "W")
+            {
+                color = Color.White;
+            }
+            if (c == "B")
+            {
+                color = Color.Black;
+            }
+            var x = Convert.ToInt32(command.Substring(0, 1));
+            command = command.Remove(0, 1);
+            var y = Convert.ToInt32(command.Substring(0, 1));
+            game.AddFigure(new Pawn(new Cell(x, y),color));
+        }
+
+        private void SetHorse(string command)
+        {
+            command = command.Remove(0, 8);
+            var color = Color.Null;
+            var c = command.Substring(0, 1);
+            command = command.Remove(0, 1);
+            if (c == "W")
+            {
+                color = Color.White;
+            }
+            if (c == "B")
+            {
+                color = Color.Black;
+            }
+            var x = Convert.ToInt32(command.Substring(0, 1));
+            command = command.Remove(0, 1);
+            var y = Convert.ToInt32(command.Substring(0, 1));
+            game.AddFigure(new Horse(new Cell(x, y), color));
+        }
+
+        private void SetElephant(string command)
+        {
+            command = command.Remove(0, 11);
+            var color = Color.Null;
+            var c = command.Substring(0, 1);
+            command = command.Remove(0, 1);
+            if (c == "W")
+            {
+                color = Color.White;
+            }
+            if (c == "B")
+            {
+                color = Color.Black;
+            }
+            var x = Convert.ToInt32(command.Substring(0, 1));
+            command = command.Remove(0, 1);
+            var y = Convert.ToInt32(command.Substring(0, 1));
+            game.AddFigure(new Elephant(new Cell(x, y), color));
+        }
+
+        private void SetRook(string command)
+        {
+            command = command.Remove(0, 7);
+            var color = Color.Null;
+            var c = command.Substring(0, 1);
+            command = command.Remove(0, 1);
+            if (c == "W")
+            {
+                color = Color.White;
+            }
+            if (c == "B")
+            {
+                color = Color.Black;
+            }
+            var x = Convert.ToInt32(command.Substring(0, 1));
+            command = command.Remove(0, 1);
+            var y = Convert.ToInt32(command.Substring(0, 1));
+            game.AddFigure(new Rook(new Cell(x, y), color));
+        }
+        private void SetQueen(string command)
+        {
+            command = command.Remove(0, 8);
+            var color = Color.Null;
+            var c = command.Substring(0, 1);
+            command = command.Remove(0, 1);
+            if (c == "W")
+            {
+                color = Color.White;
+            }
+            if (c == "B")
+            {
+                color = Color.Black;
+            }
+            var x = Convert.ToInt32(command.Substring(0, 1));
+            command = command.Remove(0, 1);
+            var y = Convert.ToInt32(command.Substring(0, 1));
+            game.AddFigure(new Queen(new Cell(x, y), color));
+        }
+
+        private void Delete(string command)
+        {
+            command = command.Remove(0, 6);
+            var x = Convert.ToInt32(command.Substring(0, 1));
+            command = command.Remove(0, 1);
+            var y = Convert.ToInt32(command.Substring(0, 1));
+            var f = game.GetFigure(new Cell(x, y));
+            game.RemoveFigure(f);
         }
     }
 }

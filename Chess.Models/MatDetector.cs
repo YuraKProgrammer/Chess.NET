@@ -15,10 +15,6 @@ namespace Chess.Models
         public IShahDetector shahDetector = new ShahDetector();
         public bool Detect(List<IFigure> figures, Color kingColor)
         {
-            if (figures.Where(f => f.color == kingColor).Where(f => f.GetType() == typeof(King)).FirstOrDefault()==null)
-            {
-                return true;
-            }
             Cell cellK = figures.Where(f => f.color == kingColor).Where(f => f.GetType() == typeof(King)).FirstOrDefault().cell;
             King king = (King)(figures.Where(f => f.color == kingColor).Where(f => f.GetType() == typeof(King)).FirstOrDefault());
             if (shahDetector.Detect(figures, kingColor).Count == 0)
