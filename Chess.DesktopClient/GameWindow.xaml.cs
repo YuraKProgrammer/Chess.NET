@@ -231,11 +231,26 @@ namespace Chess.DesktopClient
                 case "SolidPawns":
                     SolidPawns();
                     break;
+                case "SolidHorses":
+                    SolidHorses();
+                    break;
+                case "SolidElephants":
+                    SolidElephants();
+                    break;
+                case "SolidRooks":
+                    SolidRooks();
+                    break;
                 case "FunnyInscriptions":
                     FunnyInscriptions();
                     break;
                 case "AllFiguresDelete":
                     DeleteAllFigures();
+                    break;
+                case "WhiteTurn":
+                    WhiteTurn();
+                    break;
+                case "BlackTurn":
+                    BlackTurn();
                     break;
             }
             if (CheatText.Text.StartsWith("SetPawn"))
@@ -321,6 +336,57 @@ namespace Chess.DesktopClient
                     game.AddFigure(new Pawn(f.cell, f.color));
                 }
             }
+        }
+
+        private void SolidHorses()
+        {
+            for (int i = game.figures.Count - 1; i >= 0; i--)
+            {
+                if (game.figures[i].GetType() != typeof(King))
+                {
+                    var f = game.figures[i];
+                    game.RemoveFigure(game.figures[i]);
+                    game.AddFigure(new Horse(f.cell, f.color));
+                }
+            }
+        }
+
+        private void SolidElephants()
+        {
+            for (int i = game.figures.Count - 1; i >= 0; i--)
+            {
+                if (game.figures[i].GetType() != typeof(King))
+                {
+                    var f = game.figures[i];
+                    game.RemoveFigure(game.figures[i]);
+                    game.AddFigure(new Elephant(f.cell, f.color));
+                }
+            }
+        }
+
+        private void SolidRooks()
+        {
+            for (int i = game.figures.Count - 1; i >= 0; i--)
+            {
+                if (game.figures[i].GetType() != typeof(King))
+                {
+                    var f = game.figures[i];
+                    game.RemoveFigure(game.figures[i]);
+                    game.AddFigure(new Rook(f.cell, f.color));
+                }
+            }
+        }
+
+        private void WhiteTurn()
+        {
+            game.turn = Color.White;
+            selectedFigure = null;
+        }
+
+        private void BlackTurn()
+        {
+            game.turn = Color.Black;
+            selectedFigure = null;
         }
 
         private void FunnyInscriptions()
