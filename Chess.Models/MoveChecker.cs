@@ -74,7 +74,8 @@ namespace Chess.Models
         /// </summary>
         private bool CheckPath(IFigure figure, Cell cell2, List<IFigure> figures)
         {
-            if (figure.GetType() == typeof(Horse)) {
+            var f2 = figures.Where(f => f.cell == cell2).FirstOrDefault();
+            if (figure.GetType() == typeof(Horse) && (f2==null || f2.color!=figure.color)) {
                 return true;
             }
             var dx = cell2.x - figure.cell.x;
@@ -98,7 +99,7 @@ namespace Chess.Models
             return IsPathClear(lc, figures);
         }
         /// <summary>
-        ///Получение всех клеток, находящиххся на пути у фигуры
+        ///Получение всех клеток, находящихся на пути у ходящей фигуры
         /// </summary>
         private List<Cell> GetPath(Cell cell1, Cell cell2)
         {
@@ -108,7 +109,7 @@ namespace Chess.Models
             var x2 = cell2.x;
             var y2 = cell2.y;
             l.Add(cell2);
-            if (x1 == x2)
+            if (x1 == x2 && y1!=y2)
             {
                 if (y1 < y2)
                 {
@@ -117,7 +118,7 @@ namespace Chess.Models
                         l.Add(new Cell(x1, y));
                     }
                 }
-                if (y2 < y1)
+                else if (y2 < y1)
                 {
                     for (var y = y2 + 1; y < y1; y++)
                     {
@@ -125,7 +126,7 @@ namespace Chess.Models
                     }
                 }
             }
-            else if (y1 == y2)
+            else if (y1 == y2 && x1!=x2)
             {
                 if (x1 < x2)
                 {
@@ -134,7 +135,7 @@ namespace Chess.Models
                         l.Add(new Cell(x, y1));
                     }
                 }
-                if (x2 < x1)
+                else if (x2 < x1)
                 {
                     for (var x = x2 + 1; x < x1; x++)
                     {
@@ -153,7 +154,7 @@ namespace Chess.Models
                         l.Add(new Cell(x, y));
                     }
                 }
-                if (x2 < x1 && y1 < y2)
+                else if (x2 < x1 && y1 < y2)
                 {
                     var y = y1;
                     for (var x=x2+1; x<x1; x++)
@@ -162,7 +163,7 @@ namespace Chess.Models
                         l.Add(new Cell(x, y));
                     }
                 }
-                if (x2 < x1 && y2 < y1)
+                else if (x2 < x1 && y2 < y1)
                 {
                     var y = y2;
                     for (var x = x2 + 1; x < x1; x++)
@@ -171,7 +172,7 @@ namespace Chess.Models
                         l.Add(new Cell(x, y));
                     }
                 }
-                if (x1 < x2 && y2 < y1)
+                else if (x1 < x2 && y2 < y1)
                 {
                     var y = y2;
                     for (var x = x1 + 1; x < x2; x++)

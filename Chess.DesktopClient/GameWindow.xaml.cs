@@ -252,6 +252,12 @@ namespace Chess.DesktopClient
                 case "BlackTurn":
                     BlackTurn();
                     break;
+                case "WhiteWinner":
+                    WhiteWinner();
+                    break;
+                case "BlackWinner":
+                    BlackWinner();
+                    break;
             }
             if (CheatText.Text.StartsWith("SetPawn"))
             {
@@ -387,6 +393,16 @@ namespace Chess.DesktopClient
         {
             game.turn = Color.Black;
             selectedFigure = null;
+        }
+
+        private void WhiteWinner()
+        {
+            game.winner = Color.White;
+        }
+
+        private void BlackWinner()
+        {
+            game.winner = Color.Black;
         }
 
         private void FunnyInscriptions()
