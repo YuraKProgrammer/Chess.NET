@@ -68,7 +68,7 @@ namespace Chess.Models
                     return false; 
                 }
             }
-            throw new Exception("Ошбка поверки интервала");
+            throw new Exception("Ошбка проверки интервала");
         }
     }
 }

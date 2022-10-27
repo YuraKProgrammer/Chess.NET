@@ -13,8 +13,8 @@ namespace Chess.Models
     /// </summary>
     public class MoveChecker : IMoveChecker
     {
-        private Region BlackPawnsRegion = new Region(1,2,8,2);
-        private Region WhitePawnsRegion = new Region(1,7,8,7);
+        private Region BlackPawnsRegion = new Region(1,2,8,2); //Регион, в котором стоят чёрные пешки
+        private Region WhitePawnsRegion = new Region(1,7,8,7); //Регион, в котором стоят белые пешки
         public bool Check(Cell cell1, Cell cell2, List<IFigure> figures)
         {
             bool isEating = false;
@@ -74,7 +74,7 @@ namespace Chess.Models
         /// </summary>
         private bool CheckPath(IFigure figure, Cell cell2, List<IFigure> figures)
         {
-            var f2 = figures.Where(f => f.cell == cell2).FirstOrDefault();
+            var f2 = figures.Where(f => Comparer.CompareCells(f.cell, cell2)).FirstOrDefault();
             if (figure.GetType() == typeof(Horse) && (f2==null || f2.color!=figure.color)) {
                 return true;
             }
