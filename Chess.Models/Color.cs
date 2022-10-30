@@ -11,8 +11,8 @@ namespace Chess.Models
     /// </summary>
     public enum Color
     {
-        Black,
-        White,
-        Null
+        Black, //Белый
+        White, //Чёрный
+        Null //Некий пустой цвет, который нужен для правильной работы проверки цвета шахуемого короля
     }
 }

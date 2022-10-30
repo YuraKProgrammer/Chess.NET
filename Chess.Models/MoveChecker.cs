@@ -17,16 +17,17 @@ namespace Chess.Models
         private Region WhitePawnsRegion = new Region(1,7,8,7); //Регион, в котором стоят белые пешки
         public bool Check(Cell cell1, Cell cell2, List<IFigure> figures)
         {
+            var figure = figures.Where(f => Comparer.CompareCells(f.cell, cell1)).FirstOrDefault();
             bool isEating = false;
-            var f = figures.Where(f => Comparer.CompareCells(f.cell,cell1)).FirstOrDefault();
-            if (figures.Where(f => Comparer.CompareCells(f.cell, cell2)).FirstOrDefault() != null)
+            var figure2 = figures.Where(f => Comparer.CompareCells(f.cell, cell2)).FirstOrDefault();
+            if (figure2 != null)
             {
-                if (figures.Where(f => Comparer.CompareCells(f.cell,cell1)).FirstOrDefault().color != figures.Where(f => Comparer.CompareCells(f.cell,cell2)).FirstOrDefault().color)
+                if (figure.color != figure2.color)
                 {
                     isEating = true;
                 }
             }
-            if (CheckShift(cell1, cell2, f, isEating) && CheckPath(f, cell2, figures))
+            if (CheckShift(cell1, cell2, figure, isEating) && CheckPath(figure, cell2, figures))
             {
                 return true;
             }
@@ -199,6 +200,9 @@ namespace Chess.Models
             return true;
         }
 
+        /// <summary>
+        /// Проверка, первый ли ход делает пешка
+        /// </summary>
         private bool IsPawnFirstMove(IFigure figure)
         {
             if (figure.color == Color.White)

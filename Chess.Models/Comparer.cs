@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Chess.Models
 {
+    /// <summary>
+    /// Сравниватель игровых объектов
+    /// </summary>
     public static class Comparer
     {
         /// <summary>

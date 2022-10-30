@@ -18,7 +18,7 @@ namespace Chess.Models
                 var y = BlackPawnsFinalRegion.y1;
                 for (int x=BlackPawnsFinalRegion.x1; x <= BlackPawnsFinalRegion.x2; x++)
                 {
-                    var f = figures.Where(f => f.cell.x == x).Where(f => f.cell.y == y).Where(f => f.color == Color.Black).FirstOrDefault();
+                    var f = figures.Where(f => Comparer.CompareCells(f.cell,new Cell(x,y))).Where(f => f.color == Color.Black).FirstOrDefault();
                     if (f != null && f.GetType() == typeof(Pawn)) 
                     {
                         return new Cell(x, y);
@@ -30,7 +30,7 @@ namespace Chess.Models
                 var y = WhitePawnsFinalRegion.y1;
                 for (int x = WhitePawnsFinalRegion.x1; x <= WhitePawnsFinalRegion.x2; x++)
                 {
-                    var f = figures.Where(f => f.cell.x == x).Where(f => f.cell.y == y).Where(f => f.color == Color.White).FirstOrDefault();
+                    var f = figures.Where(f => Comparer.CompareCells(f.cell, new Cell(x, y))).Where(f => f.color == Color.White).FirstOrDefault();
                     if (f != null && f.GetType() == typeof(Pawn))
                     {
                         return new Cell(x, y);

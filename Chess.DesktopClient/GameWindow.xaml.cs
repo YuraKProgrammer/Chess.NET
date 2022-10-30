@@ -134,28 +134,11 @@ namespace Chess.DesktopClient
         {
             var x = (int)(e.GetPosition(_canvas).X / cellSize) + 1;
             var y = (int)(e.GetPosition(_canvas).Y / cellSize) + 1;
-            if (selectedFigure != null)
+            if (selectedFigure != null) //Если выделенная фигура не пустая
             {
-                if (game.CheckShah()!=Models.Color.Null)
-                {
-                    var game1 = new Game(new GameField(8, 8), game.figures, game.moves, game.turn);
-                    game1.MakeMove(selectedFigure.cell, new Cell(x, y));
-                    if (game1.CheckShah()==Models.Color.Null)
-                    {
-                        game.MakeMove(selectedFigure.cell, new Cell(x, y));
-                        selectedFigure = null;
-                    }
-                    else
-                    {
-                        MessageBox.Show("Невозможно переставить фигуру");
-                    }
-                }
-                else 
-                {
-                    if (!game.MakeMove(selectedFigure.cell, new Cell(x, y)))
-                        MessageBox.Show("Невозможно переставить фигуру");
-                    selectedFigure = null;
-                }
+                if (!game.MakeMove(selectedFigure.cell, new Cell(x, y)))
+                    MessageBox.Show("Невозможно переставить фигуру");
+                selectedFigure = null;
                 Update();
             }
         }

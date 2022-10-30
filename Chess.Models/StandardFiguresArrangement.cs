@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Chess.Models
 {
+    /// <summary>
+    /// Стандартная расстановка фигур
+    /// </summary>
     public static class StandardFiguresArrangement
     {
         public static List<IFigure> GetFigures()

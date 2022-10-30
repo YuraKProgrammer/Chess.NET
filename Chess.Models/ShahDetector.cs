@@ -26,12 +26,12 @@ namespace Chess.Models
                     for (var y = 1; y <= 8; y++)
                     {
                         var cell = new Cell(x, y); //Создаем клетку по координатам x и y 
-                        var f = figures.Where(f => Comparer.CompareCells(f.cell, cell)).FirstOrDefault(); //Берём фигуру на поле в данной клетке
-                        if (f != null && f.color != kingColor) //Если фигура не равна null и цает фигуры не равен цвету короля
+                        var figure = figures.Where(f => Comparer.CompareCells(f.cell, cell)).FirstOrDefault(); //Берём фигуру на поле в данной клетке
+                        if (figure != null && figure.color != kingColor) //Если фигура не равна null и цвет фигуры не равен цвету короля
                         {
                             if (moveChecker.Check(cell, c2, figures)) //Если можно сделать ход фигурой из данной клетки в клетку короля
                             {
-                                outF.Add(f); //Добавить данную фигуру в список шахующих фигур
+                                outF.Add(figure); //Добавить данную фигуру в список шахующих фигур
                             }
                         }
                     }

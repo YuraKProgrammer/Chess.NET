@@ -16,7 +16,7 @@ namespace Chess.Models
         public IMoveChecker moveChecker = new MoveChecker();
         public IShahDetector shahDetector = new ShahDetector();
         public IMatDetector matDetector = new MatDetector();
-        public Color winner {get; set;}
+        public Color winner {get; set;} //Цвет победителя
         public IFinalPositionChecker finalPositionChecker = new FinalPositionChecker();
         public GameField field { get; set; }
         public List<IFigure> figures { get; set; }
@@ -64,32 +64,79 @@ namespace Chess.Models
         {
             moves.Add(move);
         }
+
+        public void RearrangeFigure(Cell cell1, Cell cell2)
+        {
+            var f = GetFigure(cell1);
+            AddMove(new Move(moves.Count + 1, GetFigure(cell1), cell1, cell2)); //Добавляем ход в память
+            if (GetFigure(cell2) != null && GetFigure(cell1).color != GetFigure(cell2).color) //Если во второй клетке есть фигура и цвета фигур во второй и первой клетках не совпадают 
+            {
+                var f2 = GetFigure(cell2); //Получаем фигуру в клетке 2
+                figures.Remove(f2); //Убираем фигуру из 2 клетки
+            }
+            figures.Remove(f);//Убираем фигуру из 1 клетки
+            f.cell = cell2;//Меняем клетку фигуры с 1 на 2
+            figures.Add(f);//Добавляем фигуру в фигуры
+        }
+
         /// <summary>
         /// Сделать ход 
         /// </summary>
         public bool MakeMove(Cell cell1, Cell cell2)
         {
-            if (moveChecker.Check(cell1, cell2, figures))//Если вообще можно сделать такой ход по MoveCheker
+            if (CheckShah() == Color.Null)
             {
-                var f = GetFigure(cell1);
-                AddMove(new Move(moves.Count + 1, GetFigure(cell1), cell1, cell2)); //Добавляем ход в память
-                if (GetFigure(cell2) != null && GetFigure(cell1).color!=GetFigure(cell2).color) //Если во второй клетке есть фигура и цвета фигур во второй и первой клетках не совпадают 
+                if (moveChecker.Check(cell1, cell2, figures))//Если вообще можно сделать такой ход по MoveCheker
                 {
-                    var f2 = GetFigure(cell2); //Получаем фигуру в клетке 2
-                    figures.Remove(f2); //Убираем фигуру из 2 клетки
+                    var fi = new List<IFigure>();
+                    foreach (var f in figures)
+                    {
+                        fi.Add(Copier.CopyFigure(f));
+                    }
+                    Game game1 = new Game(new GameField(8, 8), fi, moves, turn);
+                    game1.RearrangeFigure(cell1, cell2);
+                    if (game1.CheckShah()!= Color.Null)
+                    {
+                        return false;
+                    }
+                    RearrangeFigure(cell1, cell2);
+                    if (turn == Color.White)
+                        turn = Color.Black;
+                    else
+                        turn = Color.White;
+                    return true;
                 }
-                figures.Remove(f);//Убираем фигуру из 1 клетки
-                f.cell = cell2;//Меняем клетку фигуры с 1 на 2
-                figures.Add(f);//Добавляем фигуру в фигуры
-                //Здесь меняем очередь хода игрока
-                if (turn == Color.White) 
-                    turn = Color.Black;
                 else
-                    turn = Color.White;
-                return true;
+                {
+                    return false;
+                }
             }
             else
             {
+                if (moveChecker.Check(cell1, cell2, figures))
+                {
+                    var fi = new List<IFigure>();
+                    foreach (var f in figures)
+                    {
+                        fi.Add(Copier.CopyFigure(f));
+                    }
+                    Game game1 = new Game(new GameField(8, 8), fi, moves, turn);
+                    game1.RearrangeFigure(cell1, cell2);
+                    if (turn == Color.White)
+                        turn = Color.Black;
+                    else
+                        turn = Color.White;
+                    if (game1.CheckShah() == Color.Null)
+                    {
+                        RearrangeFigure(cell1, cell2);
+                        if (turn == Color.White)
+                            turn = Color.Black;
+                        else
+                            turn = Color.White;
+                        return true;
+                    }
+                    return false;
+                }
                 return false;
             }
         }
@@ -126,6 +173,9 @@ namespace Chess.Models
             return winner;
         }
 
+        /// <summary>
+        ///Проверка, что пешка находится в конце поля, и если она в конце, замена на ферзя
+        /// </summary>
         public void CheckFinalPosition()
         {
             var c1 = finalPositionChecker.CheckPawnInFinalPosition(figures, Color.Black);
