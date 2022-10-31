@@ -22,19 +22,21 @@ namespace Chess.Models
                 return false; 
             }
             var k = 0; //Количество клеток, в которые не может уйти король
-            foreach(Shift sh in king.moves)
+            var j = 0; //Количество клеток, которые проверяются
+            foreach(Shift sh in king.moves) //Перебираем сдвиги во всевозможных короля
             {
-                var x1 = cellK.x + sh.dx;
-                var y1 = cellK.y + sh.dy;
-                if (RegionChecker.CheckNumberInInterval(x1, 1, 8) && RegionChecker.CheckNumberInInterval(y1, 1, 8))
+                var x1 = cellK.x + sh.dx; //Находим координату x клетки, в которую сдвигается король
+                var y1 = cellK.y + sh.dy; //Находим координату y клетки, в которую сдвигается король
+                if (RegionChecker.CheckCellInRegion(new Cell(x1,y1),new Region(1,1,8,8))) //Если такая клетка входит в поле
                 {
-                    if (CheckCellIsHit(x1, y1, figures, kingColor) == true)
+                    j = j + 1;
+                    if (CheckCellIsHit(x1, y1, figures, kingColor) == true) //Если клетка под ударом
                     {
                         k = k + 1;
                     }
                 }
             }
-            if (k == 8)
+            if (k == j)
             {
                 return true;
             }
@@ -46,6 +48,7 @@ namespace Chess.Models
         /// </summary>
         private bool CheckCellIsHit(int x, int y, List<IFigure> figures,Color kingColor)
         {
+            //Системный алгоритм для копирования фигур
             var f1 = new List<IFigure>();
             foreach (var f in figures)
             {
@@ -53,11 +56,16 @@ namespace Chess.Models
             }
             var game1 = new Game(new GameField(8, 8), f1, new List<Move>(), kingColor); //Создаём новую игру
             Cell cellK = f1.Where(f => f.color == kingColor).Where(f => f.GetType() == typeof(King)).FirstOrDefault().cell; //Получем клетку короля
-            game1.MakeMove(cellK, new Cell(x, y)); //Делаем ход королём
+            if (game1.MakeMove(cellK, new Cell(x, y)) == false) //Делаем ход королём, и если его невозможно сделать возвращаем false
+            {
+                return true;
+            } 
+            //Меняем очередь ходьбы короля
             if (kingColor == Color.White) 
                 game1.turn = Color.Black;
             else if (kingColor == Color.Black)
                 game1.turn = Color.White;
+            //Здесь проверяем, есть ли шах королю
             if (game1.CheckShah() == kingColor)
             {
                 return true;

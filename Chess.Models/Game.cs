@@ -68,7 +68,6 @@ namespace Chess.Models
         public void RearrangeFigure(Cell cell1, Cell cell2)
         {
             var f = GetFigure(cell1);
-            AddMove(new Move(moves.Count + 1, GetFigure(cell1), cell1, cell2)); //Добавляем ход в память
             if (GetFigure(cell2) != null && GetFigure(cell1).color != GetFigure(cell2).color) //Если во второй клетке есть фигура и цвета фигур во второй и первой клетках не совпадают 
             {
                 var f2 = GetFigure(cell2); //Получаем фигуру в клетке 2
@@ -88,22 +87,25 @@ namespace Chess.Models
             {
                 if (moveChecker.Check(cell1, cell2, figures))//Если вообще можно сделать такой ход по MoveCheker
                 {
+                    //Системный алгоритм по копированию фигур
                     var fi = new List<IFigure>();
                     foreach (var f in figures)
                     {
                         fi.Add(Copier.CopyFigure(f));
                     }
-                    Game game1 = new Game(new GameField(8, 8), fi, moves, turn);
+                    Game game1 = new Game(new GameField(8, 8), fi, moves, turn); //Создаем копию игры
                     game1.RearrangeFigure(cell1, cell2);
-                    if (game1.CheckShah()!= Color.Null)
+                    if (game1.CheckShah()!= Color.Null) //Если есть шах
                     {
                         return false;
                     }
-                    RearrangeFigure(cell1, cell2);
+                    RearrangeFigure(cell1, cell2); //Переставляем фигуры
+                    //Меняем очередь хода в игре
                     if (turn == Color.White)
                         turn = Color.Black;
                     else
                         turn = Color.White;
+                    AddMove(new Move(moves.Count + 1, GetFigure(cell1), cell1, cell2)); //Добавляем ход в память
                     return true;
                 }
                 else
@@ -115,24 +117,23 @@ namespace Chess.Models
             {
                 if (moveChecker.Check(cell1, cell2, figures))
                 {
+                    //Системный алгоритм по копированию фигур
                     var fi = new List<IFigure>();
                     foreach (var f in figures)
                     {
                         fi.Add(Copier.CopyFigure(f));
                     }
-                    Game game1 = new Game(new GameField(8, 8), fi, moves, turn);
-                    game1.RearrangeFigure(cell1, cell2);
-                    if (turn == Color.White)
-                        turn = Color.Black;
-                    else
-                        turn = Color.White;
-                    if (game1.CheckShah() == Color.Null)
+                    Game game1 = new Game(new GameField(8, 8), fi, moves, turn); //Создаём новую копию игры
+                    game1.RearrangeFigure(cell1, cell2); //Переставляем фигуры
+                    if (game1.CheckShah() == Color.Null) //Если нет шаха
                     {
-                        RearrangeFigure(cell1, cell2);
-                        if (turn == Color.White)
+                        RearrangeFigure(cell1, cell2); //Пересталяем фигуры
+                        //Меняем очередь хода игрока
+                        if (turn == Color.White) 
                             turn = Color.Black;
                         else
                             turn = Color.White;
+                        AddMove(new Move(moves.Count + 1, GetFigure(cell1), cell1, cell2)); //Добавляем ход в память
                         return true;
                     }
                     return false;
@@ -178,7 +179,7 @@ namespace Chess.Models
         /// </summary>
         public void CheckFinalPosition()
         {
-            var c1 = finalPositionChecker.CheckPawnInFinalPosition(figures, Color.Black);
+            var c1 = finalPositionChecker.CheckPawnInFinalPosition(figures, Color.Black); 
             if (c1!=null)
             {
                 RemoveFigure(GetFigure(c1));
