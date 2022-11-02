@@ -54,6 +54,7 @@ namespace Chess.DesktopClient
                 turn.Text = turnWText;
             if (game.turn == Models.Color.Black) //Если очередь чёрных
                 turn.Text = turnBText;
+            movesCount.Text = "Ходов всего: " + game.moves.Count();
             HowMuchIsEaten();
             CheckShah();
         }
